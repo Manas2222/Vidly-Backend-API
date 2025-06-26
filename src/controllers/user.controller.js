@@ -5,11 +5,6 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-  // create user in the database
-  // remove pwd and other sensitive data from the response
-  // check for user creation
-  // send response
-
   // get details from the frontend
   const { fullName, email, username, password } = req.body;
   console.log("User registration details:", { email, password });
@@ -54,6 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to upload avatar image");
   }
 
+  // create user in the database
   const createdUser = await User.create({
     fullName: fullName,
     avatar: avatar.url,
@@ -63,14 +59,17 @@ const registerUser = asyncHandler(async (req, res) => {
     password: password,
   });
 
+  // remove pwd and other sensitive data from the response
   isUserCreated = User.findById(createdUser._id).select(
     "-password -refreshToken"
   );
 
+  // check for user creation
   if (!isUserCreated) {
     throw new ApiError(500, "Failed to create user");
   }
 
+  // send response
   return res
     .status(201)
     .json(
