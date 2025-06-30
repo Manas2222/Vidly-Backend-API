@@ -4,8 +4,10 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const generateAccessAndRefreshTokens = async (user) => {
+const generateAccessAndRefreshTokens = async (userid) => {
   try {
+    const user = await User.findById(userid);
+
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -14,7 +16,7 @@ const generateAccessAndRefreshTokens = async (user) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    throw new ApiError(500, "there was an error generating tokens");
+    throw new ApiError(500, "there was an error generating tokens: " + error);
   }
 };
 
@@ -104,7 +106,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // login the user
 
   const { username, email, password } = req.body;
-  username = username?.toLowerCase();
+
   if (!(username || email)) {
     throw new ApiError(400, "Username or email is required");
   }
@@ -120,8 +122,9 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid password");
   }
 
-  const { accessToken, refreshToken } =
-    await generateAccessAndRefreshTokens(foundUser);
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    foundUser._id
+  );
 
   // try using the above found user
 
@@ -158,7 +161,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  options = {
+  const options = {
     httpOnly: true,
     secure: true,
   };

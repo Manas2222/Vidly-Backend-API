@@ -14,7 +14,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
 
   let user_info;
   try {
-    user_info = await jwt.verify(accessToken, processs.env.ACCESS_TOKEN_SECRET);
+    user_info = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   } catch (error) {
     throw new ApiError(401, "Invalid access token");
   }
