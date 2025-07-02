@@ -3,6 +3,11 @@ import {
   logoutUser,
   refreshAccessToken,
   registerUser,
+  changeCurrentUserPassword,
+  getCurrentUser,
+  updateUserDetails,
+  updateUserAvatar,
+  updateUserCoverImage,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { loginUser } from "../controllers/user.controller.js";
@@ -24,5 +29,9 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJWT, logoutUser);
 
 router.route("/refresh-token").post(refreshAccessToken);
+
+router
+  .route("/change-avatar")
+  .post(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 export default router;

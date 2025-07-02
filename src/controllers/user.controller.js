@@ -1,7 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -246,7 +249,7 @@ const changeCurrentUserPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-  // user alr stored in cookies, make sure to run the aut middleware
+  // user alr stored in cookies, make sure to run the auth middleware
   return res
     .status(200)
     .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
@@ -259,7 +262,7 @@ const updateUserDetails = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Full name and email are required");
   }
 
-  const user = User.findByIdAndUpdate(
+  const user = await User.findByIdAndUpdate(
     req.user._id,
     {
       $set: {
@@ -281,6 +284,10 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Avatar image is required");
   }
 
+  // save the previous avatar to delete it later
+  const previousAvatar = req.user?.avatar;
+  const publicId = previousAvatar?.split("/").pop().split(".")[0];
+
   // upload to cloudinary
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   if (!avatar) {
@@ -298,6 +305,11 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     { new: true }
   ).select("-password -refreshToken");
 
+  // delete the old avatar from cloudinary
+  if (previousAvatar) {
+    await deleteFromCloudinary(publicId);
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, user, "User avatar updated successfully"));
@@ -308,6 +320,10 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   if (!coverImageLocalPath) {
     throw new ApiError(400, "cover image file is required");
   }
+
+  // save the previous cover image to delete it later
+  const previousCoverImage = req.user?.coverImage;
+  const publicId = previousCoverImage?.split("/").pop().split(".")[0];
 
   // upload to cloudinary
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
@@ -325,6 +341,11 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
     },
     { new: true }
   ).select("-password -refreshToken");
+
+  // delete the old cover image from cloudinary
+  if (previousCoverImage) {
+    await deleteFromCloudinary(publicId);
+  }
 
   return res
     .status(200)
