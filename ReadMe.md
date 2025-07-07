@@ -85,7 +85,7 @@ Before running this application, make sure you have the following installed:
    npm run dev
    ```
 
-The server will start on `http://localhost:8000` (or your specified PORT).
+The server will start on `http://localhost:8000`.
 
 ## 📁 Project Structure
 
