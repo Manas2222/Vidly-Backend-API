@@ -147,25 +147,6 @@ src/
 
 ![DB Model](/public/image/1751908336806.png)
 
-## 🚀 Deployment
-
-### Environment Variables for Production
-
-```env
-NODE_ENV=production
-PORT=8000
-MONGODB_URI=your-production-mongodb-uri
-CORS_ORIGIN=your-frontend-domain
-# ... other environment variables
-```
-
-### Deployment Platforms
-
-- **Heroku**: Easy deployment with Git integration
-- **Railway**: Modern deployment platform
-- **DigitalOcean**: VPS deployment
-- **AWS**: Scalable cloud deployment
-
 ## 📝 License
 
 This project is licensed under the ISC License.
@@ -186,3 +167,12 @@ This project is licensed under the ISC License.
 - [ ] Video recommendations
 - [ ] User playlists
 - [ ] Admin dashboard
+
+## 🎓 Credits
+
+This project was built following the excellent **"Chai aur Backend"** series by [Hitesh Chaudhary](https://github.com/hiteshchoudhary). The series provides comprehensive coverage of backend development with Node.js, Express, and MongoDB.
+
+- **Instructor**: Hitesh Chaudhary
+- **Course**: Chai aur Backend Series
+- **Platform**: YouTube - [Chai aur Code](https://www.youtube.com/@chaiaurcode)
+- **GitHub**: [hiteshchoudhary](https://github.com/hiteshchoudhary)
