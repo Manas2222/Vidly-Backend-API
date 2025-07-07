@@ -75,13 +75,8 @@ Before running this application, make sure you have the following installed:
    PORT=8000
    MONGODB_URI=mongodb://localhost:27017/youtube-clone
    CORS_ORIGIN=http://localhost:3000
-   ACCESS_TOKEN_SECRET=your-access-token-secret
-   REFRESH_TOKEN_SECRET=your-refresh-token-secret
    ACCESS_TOKEN_EXPIRY=1d
    REFRESH_TOKEN_EXPIRY=10d
-   CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
-   CLOUDINARY_API_KEY=your-cloudinary-api-key
-   CLOUDINARY_API_SECRET=your-cloudinary-api-secret
    ```
 
 4. **Start the development server**
