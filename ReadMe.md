@@ -145,7 +145,7 @@ src/
 
 ## 📊 Database Models
 
-![DB Model](<![1751908336806](/public/image/1751908336806.png)>)
+![DB Model](/public/image/1751908336806.png)
 
 ## 🚀 Deployment
 
