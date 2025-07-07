@@ -32,16 +32,16 @@ router.route("/refresh-token").post(refreshAccessToken);
 
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 
-router.route("/update-details").post(verifyJWT, updateUserDetails);
+router.route("/update-details").patch(verifyJWT, updateUserDetails);
 
-router.route("/change-password").post(verifyJWT, changeCurrentUserPassword);
+router.route("/change-password").patch(verifyJWT, changeCurrentUserPassword);
 
 router
   .route("/change-cover-image")
-  .post(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
+  .patch(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 
 router
   .route("/change-avatar")
-  .post(verifyJWT, upload.single("avatar"), updateUserAvatar);
+  .patch(verifyJWT, upload.single("avatar"), updateUserAvatar);
 
 export default router;
